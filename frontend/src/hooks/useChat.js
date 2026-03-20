@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import * as signalR from "@microsoft/signalr";
 
-const HUB_URL = "http://localhost:5000/hubs/chat";
+const HUB_URL = "https://swario-real-time-chat.onrender.com/hubs/chat";
 
 export function useChat(username) {
   const connectionRef = useRef(null);
@@ -18,7 +18,9 @@ export function useChat(username) {
 
     // Build the SignalR connection
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl(HUB_URL)
+      .withUrl(HUB_URL, {
+        withCredentials: true,
+      })
       .withAutomaticReconnect() // auto-retry on network blip
       .configureLogging(signalR.LogLevel.Warning)
       .build();
